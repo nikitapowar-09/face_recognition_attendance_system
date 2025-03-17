@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VisagFace - Face Recognition Attendance System</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* General Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+    }
+
+    .navbar h2 {
+      font-size: 24px;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+    }
+
+    .navbar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    .navbar ul li a:hover {
+      color: #ddd;
+    }
+
+    /* Registration Form Section */
+    #register-section {
+      display: none;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #f9f9f9;
+    }
+
+    #register-section h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="tel"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    #start-capture-btn,
+    form button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #start-capture-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #start-capture-btn:hover {
+      background-color: #45a049;
+    }
+
+    form button[type="submit"] {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    form button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    .video-container {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    #register-status {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 15px;
+      color: green;
+    }
+
+    /* Media Query for Responsiveness */
+    @media (max-width: 600px) {
+      #register-section {
+        margin: 20px;
+        padding: 15px;
+      }
+
+      .navbar ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .navbar h2 {
+        font-size: 20px;
+      }
+
+      form button,
+      #start-capture-btn {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <h2>VisagFace</h2>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Attendance</a></li>
+          <li><a href="#" id="new-register-btn">New Register</a></li> <!-- New Register Link -->
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- New Registration Form Section (Hidden initially) -->
+  <section id="register-section">
+    <h2>New Employee Registration</h2>
+    <form id="registration-form">
+      <label for="name">Name:</label>
+      <input type="text" id="name" required>
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="example@gmail.com" required>
+
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" pattern="\d{10}" placeholder="10-digit number" required>
+      
+      <button type="button" id="start-capture-btn">Capture Face</button>
+      
+      <!-- Video and Canvas for Face Capture -->
+      <div class="video-container">
+        <video id="video" width="400" height="300" autoplay muted style="display:none;"></video>
+        <canvas id="canvas" width="400" height="300" style="display:none;"></canvas>
+      </div>
+
+      <button type="submit">Register</button>
+    </form>
+    <p id="register-status"></p> <!-- Status message after registration -->
+  </section>
+
+  
+   
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Here</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <div class="navbar">
+      <h1 style="color: white;">VisagFace</h1>
+      <nav class="navbar">
+        <div class="nav-links">
+          <a href="ad_home.html">Home</a>
+            <a href="check_att.html">Check Attendance</a>
+            <a href="check_req.html">Check Request</a>
+            <a href="#">New Registration</a>
+            <a href="#">Contact</a>
+      </nav>
+    </div>
+    </div>
+    <header>
+
+  <!-- Registration Section -->
+  <section id="register-section">
+    <h2>New Employee Registration</h2>
+    <form id="registration-form">
+      <!-- Name -->
+      <label for="name">Name:</label>
+      <input type="text" id="name" placeholder="Enter Full Name" required>
+
+      <!-- Email -->
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="example@gmail.com" required>
+
+      <!-- Phone -->
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" pattern="\d{10}" placeholder="10-digit number" required>
+
+      <!-- Buttons -->
+      <div class="button-container">
+        <button type="button" id="start-capture-btn">Start Camera</button>
+        <div class="video-container">
+            <video id="video" autoplay muted style="display:none;"></video>
+            <canvas id="canvas" style="display:none;"></canvas>
+            <p id="register-status"></p>
+          </div>
+        <button type="button" id="capture-image-btn" style="display:none;">Capture Face</button>
+      </div>
+
+     
+      
+
+      <!-- Submit Button -->
+      <button type="submit">Register</button>
+    </form>
+
+    <!-- Status Message -->
+    <p id="register-status"></p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 VisagFace. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="register.js"></script>
+</body>
+</html>

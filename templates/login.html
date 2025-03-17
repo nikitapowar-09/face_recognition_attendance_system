@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Face Recognition Attendance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+   body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-image: url('login1.jpg'); 
+      background-size: cover; 
+      background-repeat: no-repeat; 
+      background-position: center;
+      background-attachment: fixed; 
+    }
+
+    .container {
+      margin-top: 200px;
+      margin-left: 150px;
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      background-color: rgba(134, 204, 247, 0.7); 
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-section {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-section h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .form-section button {
+      padding: 15px;
+      margin: 10px 0;
+      background-color: #037d81;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-section button:hover {
+      background-color:  #1ea7c6;
+    }
+
+    .image-section {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slideshow {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: flex;
+      animation: slide 10s infinite;
+    }
+
+    .slideshow img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-100%); }
+      50% { transform: translateX(-200%); }
+      75% { transform: translateX(-300%); }
+      100% { transform: translateX(-400%); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .image-section {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Form Section -->
+    <div class="form-section">
+      <h1>Welcome to VISAGFace</h1>
+      <button id="employee-login">Log in as Employee</button>
+      <button id="admin-login">Log in as Admin</button>
+    </div>
+
+    <!-- Image Section -->
+    <div class="image-section">
+      <div class="slideshow">
+        <img src="facial.png" alt="Face Recognition Technology">
+        <img src="digital.jpg" alt="Digital Attendance System">
+        <img src="secure.webp" alt="Secure Employee Management">
+        <img src="face.jpg" alt="Secure Employee Management">
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Add event listeners for the buttons
+    document.getElementById('employee-login').addEventListener('click', function() {
+      window.location.href = 'emp_login.html'; // Redirect to Employee Login Page
+    });
+
+    document.getElementById('admin-login').addEventListener('click', function() {
+      window.location.href = 'admin_login.html'; // Redirect to Admin Login Page
+    });
+  </script>
+</body>
+</html>

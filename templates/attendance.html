@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+      <div class="navbar">
+        <h1 style="color: white;">VisagFace</h1>
+        <nav class="navbar">
+          
+          <div class="nav-links">
+            <a href="Home.html">Home</a>
+            <a href="calender.html">Calendar</a>
+            <a href="#">Attendance</a>
+            <a href="leave.html">Leave Request</a>
+            <a href="#">Contact</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+      <section id="attendance-section" >
+        <h2 style="margin-top: 50px;">Mark Attendance</h2>
+        <form id="attendance-form" >
+          <label for="attendance-id">Employee ID:</label>
+          <input type="text" id="attendance-id" required placeholder="0000">
+          <button type="submit">Start Attendance</button>
+        </form>
+        
+        <!-- Video stream for face capture -->
+        <video id="video" width="400" height="300" autoplay muted style="display:none;"></video>
+        <button id="capture-face-btn" style="display:none;">Capture Face</button>
+      
+        <!-- Hidden canvas for captured face -->
+        <canvas id="canvas" width="400" height="300" style="display:none;"></canvas>
+      
+        <p id="attendance-status"></p> <!-- Status message for attendance -->
+      </section>
+      
+      
+    <footer>
+        <p>&copy; 2024 VisagFace. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

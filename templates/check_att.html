@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Check Attendance</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Centering and Table Styling */
+    table {
+      margin: 30px auto; /* Centers the table horizontally */
+      width: 80%; /* Adjust the table width */
+      border-collapse: collapse; /* Removes double borders */
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Table Header */
+    table thead th {
+      background-color:  skyblue;
+      color: white; 
+      padding: 12px;
+      font-size: 18px;
+      border: 1px solid #ddd;
+    }
+   
+table tbody tr:hover {
+  background-color: #d2f1fc; /* Lighter shade for hover effect */
+}
+
+    /* Table Body Rows */
+    table tbody td {
+      padding: 12px;
+      text-align: center;
+      font-size: 16px;
+      color: #333;
+      border: 1px solid #ddd; /* Adds border lines */
+    }
+
+    /* Table Rows - Zebra Striping */
+    table tbody tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+
+    table tbody tr:nth-child(even) {
+      background-color: #eafaea;
+    }
+
+    /* Table Hover Effect */
+    table tbody tr:hover {
+      background-color: #d3f9d8;
+    }
+
+    /* Table Header (h2) Styling */
+    #headings {
+      text-align: center;
+      font-size: 28px;
+      color: #4caf50;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <h1 style="color: white;">VisagFace</h1>
+      <nav class="navbar">
+        <div class="nav-links">
+          <a href="ad_home.html">Home</a>
+            <a href="#">Check Attendance</a>
+            <a href="check_req.html">Check Request</a>
+            <a href="register.html">New Registration</a>
+            <a href="#">Contact</a>
+      </nav>
+    </div>
+    </div>
+    <header>
+  <main>
+    <!-- Attendance Table -->
+    <section>
+      <h2 style="text-align: center; margin-top: 50px;">Employee Attendance</h2>
+      <table id="attendance-table">
+        <thead>
+          <tr>
+            <th>Employee ID</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Check-In</th>
+            <th>Check-Out</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="attendance-records">
+          <!-- Dynamic Rows -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+ <!-- Footer -->
+ <footer>
+  <p>&copy; 2024 VisagFace. All rights reserved.</p>
+</footer>
+  <script>
+    // Access the attendance table's body
+    const attendanceTable = document.getElementById("attendance-records");
+
+    // Attendance records data
+    const attendanceRecords = [
+      { id: "2001", name: "John Doe", date: "2024-11-20", checkIn: "09:00 AM", checkOut: "05:00 PM", status: "Present" },
+      { id: "2003", name: "Jane Smith", date: "2024-11-20", checkIn: "09:30 AM", checkOut: "05:15 PM", status: "Present" },
+      { id: "2005", name: "David Lee", date: "2024-11-20", checkIn: "", checkOut: "", status: "Absent" },
+    ];
+
+    // Render attendance records in the table
+    function renderAttendanceRecords() {
+      attendanceTable.innerHTML = ""; // Clear existing rows
+      attendanceRecords.forEach((record) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${record.id}</td>
+          <td>${record.name}</td>
+          <td>${record.date}</td>
+          <td>${record.checkIn || "-"}</td>
+          <td>${record.checkOut || "-"}</td>
+          <td>${record.status}</td>
+        `;
+
+        attendanceTable.appendChild(row);
+      });
+    }
+
+    // Initialize by rendering records
+    renderAttendanceRecords();
+  </script>
+</body>
+</html>
