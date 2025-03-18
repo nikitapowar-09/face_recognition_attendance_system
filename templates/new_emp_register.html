@@ -10,23 +10,23 @@
   <!-- Navbar -->
   <header>
     <div class="navbar">
-      <h1 style="color: white;">VisagFace</h1>
-      <nav class="navbar">
-        <div class="nav-links">
-          <a href="admin_home.html">Home</a>
-            <a href="check_att.html">Check Attendance</a>
-            <a href="check_req.html">Check Request</a>
-            <a href="#">New Registration</a>
-            <a href="#">Contact</a>
-      </nav>
+        <h1 style="color: white;">VisagFace</h1>
+        <nav>
+            <div class="nav-links">
+                <a href="{{ url_for('admin/dashboard') }}">Home</a>
+                <a href="{{ url_for('admin/view_attendance') }}">Check Attendance</a>
+                <a href="{{ url_for('admin/manage_leaves') }}">Check Request</a>
+                <a href="#">New Registration</a>
+                <a href="#">Contact</a>
+            </div>
+        </nav>
     </div>
-    </div>
-    <header>
+</header>
 
   <!-- Registration Section -->
   <section id="register-section">
     <h2>New Employee Registration</h2>
-    <form id="registration-form">
+    <form action="/admin/register_employee" method="POST" enctype="multipart/form-data">
       <!-- Name -->
       <label for="name">Name:</label>
       <input type="text" id="name" placeholder="Enter Full Name" required>
@@ -49,10 +49,6 @@
           </div>
         <button type="button" id="capture-image-btn" style="display:none;">Capture Face</button>
       </div>
-
-     
-      
-
       <!-- Submit Button -->
       <button type="submit">Register</button>
     </form>

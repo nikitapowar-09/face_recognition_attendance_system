@@ -51,18 +51,18 @@ table tbody tr:hover {
 <body>
   <header>
     <div class="navbar">
-      <h1 style="color: white;">VisagFace</h1>
-      <nav class="navbar">
-        <div class="nav-links">
-          <a href="ad_home.html">Home</a>
-            <a href="check_att.html">Check Attendance</a>
-            <a href="#">Check Request</a>
-            <a href="register.html">New Registration</a>
-            <a href="#">Contact</a>
-      </nav>
+        <h1 style="color: white;">VisagFace</h1>
+        <nav>
+            <div class="nav-links">
+                <a href="{{ url_for('admin/dashboard') }}">Home</a>
+                <a href="{{ url_for('admin/view_attendance') }}">Check Attendance</a>
+                <a href="#">Check Request</a>
+                <a href="{{ url_for('admin/register_employee'') }}">New Registration</a>
+                <a href="#">Contact</a>
+            </div>
+        </nav>
     </div>
-    </div>
-    <header>
+</header>
 
 <h2 style="text-align: center; margin-top: 50px;">Employee Leave Requests</h2>
 <table>

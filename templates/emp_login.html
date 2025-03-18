@@ -77,21 +77,13 @@
   </style>
 </head>
 <body>
-  <section id="login-section"></section>
-  <form id="employee-login-form">
-    <div class="login-container">
-      <h1 style="margin-top: 200px;">Employee Login</h1>
-      
+  <section class="login-section">
+    <h2>Employee Login</h2>
+    <form action="/employee/login" method="post">
       <input type="text" id="employee-id" placeholder="Enter your Employee ID" required><br>
-     
-      <input type="password" id="password" placeholder="Enter your Password" required>
-      <div class="button-container">
-        <button type="submit">Login</button>
-      </div>
-      <!-- Login Status Message -->
-      <p id="login-status"></p>
-    </div>
-  </form>
-  <script src="employee-login.js"></script>
+      <input type="password" name="password" required>
+      <button type="submit">Login</button>
+    </form>
+  </section>
 </body>
 </html>

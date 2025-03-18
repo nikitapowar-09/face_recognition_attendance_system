@@ -10,22 +10,22 @@
     <!-- Navbar -->
     <header>
       <div class="navbar">
-        <h1 style="color: white;">VisagFace</h1>
-        <nav class="navbar">
-          
-          <div class="nav-links">
-            <a href="employee_home.html">Home</a>
-            <a href="calender.html">Calendar</a>
-            <a href="#">Attendance</a>
-            <a href="leave.html">Leave Request</a>
-            <a href="#">Contact</a>
-          </div>
-        </nav>
+          <h1 style="color: white;">VisagFace</h1>
+          <nav>
+              <div class="nav-links">
+                  <a href="{{ url_for('employee/dashboard') }}">Home</a>
+                  <a href="{{ url_for('admin/view_attendance') }}">Calender</a>
+                  <a href="#">Attendance</a>
+                  <a href="{{ url_for('employee/request_leave') }}">Leave Request</a>
+                  <a href="#">Contact</a>
+              </div>
+          </nav>
       </div>
-    </header>
+  </header>
       <section id="attendance-section" >
         <h2 style="margin-top: 50px;">Mark Attendance</h2>
-        <form id="attendance-form" >
+
+        <form action="/employee/mark_attendance" method="POST" >
           <label for="attendance-id">Employee ID:</label>
           <input type="text" id="attendance-id" required placeholder="0000">
           <button type="submit">Start Attendance</button>
@@ -45,7 +45,5 @@
     <footer>
         <p>&copy; 2024 VisagFace. All rights reserved.</p>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>

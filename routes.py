@@ -9,18 +9,47 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
 
-@app.route('/employee/login', methods=['POST'])
+
+@app.route('/')
+def landing_page():
+    return render_template('welcome.html')
+@app.route('/employee_login', methods=['GET', 'POST'])
 def employee_login():
-    data = request.json
-    email = data.get('email')
-    password = data.get('password')
+    if request.method == 'POST':
+        user_id = request.form.get('user_id')
+        password = request.form.get('password')
+        user = Employee.query.filter_by(emp_id=user_id).first()
 
-    employee = Employee.query.filter_by(email=email).first()
+        if user and user.password == password:  # Use hashed passwords in production
+            login_user(user)
+            return redirect(url_for('employee_dashboard'))
+        else:
+            flash("Invalid credentials", "error")
 
-    if employee and check_password_hash(employee.password, password):
-        login_user(employee)
-        return jsonify({"message": "Login successful", "id": employee.id}), 200
-    return jsonify({"message": "Invalid credentials"}), 401
+    return render_template('emp_login.html')
+
+# Admin Login Page
+@app.route('/admin_login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        user_id = request.form.get('user_id')
+        password = request.form.get('password')
+        user = Admin.query.filter_by(admin_id=user_id).first()
+
+        if user and user.password == password:  # Use hashed passwords in production
+            login_user(user)
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash("Invalid credentials", "error")
+
+    return render_template('admin_login.html')
+
+@app.route('/employee/dashboard')
+@login_required
+def employee_dashboard():
+    if not isinstance(current_user, Employee):
+        return redirect(url_for('login'))  # Prevent admins from accessing employee page
+    return render_template('employee_home.html', name=current_user.name)
 
 @app.route('/employee/mark_attendance', methods=['POST'])
 @login_required
@@ -35,25 +64,27 @@ def mark_attendance():
         if not existing_record.check_out:
             existing_record.check_out = datetime.utcnow().time()
             db.session.commit()
-            return jsonify({"message": "Check-out recorded"}), 200
-        return jsonify({"message": "Attendance already marked"}), 400
+            return redirect(url_for('dashboard'))
+        flash("Attendance already marked", "error")
+        return redirect(url_for('dashboard'))
 
     new_attendance = Attendance(emp_id=emp_id, name=name, check_in=datetime.utcnow().time(), status="Present")
     db.session.add(new_attendance)
     db.session.commit()
-    return jsonify({"message": "Check-in recorded"}), 201
+    return redirect(url_for('dashboard'))
 
 @app.route('/employee/request_leave', methods=['POST'])
 @login_required
 def request_leave():
-    data = request.json
-    leave_date = datetime.strptime(data.get('leave_date'), "%Y-%m-%d").date()
-    reason = data.get('reason')
+    leave_date = datetime.strptime(request.form.get('leave_date'), "%Y-%m-%d").date()
+    reason = request.form.get('reason')
 
     new_leave = LeaveRequest(emp_id=current_user.id, name=current_user.name, leave_date=leave_date, reason=reason)
     db.session.add(new_leave)
     db.session.commit()
-    return jsonify({"message": "Leave request submitted"}), 201
+
+    return redirect(url_for('dashboard'))
+
 
 @app.route('/employee/logout')
 @login_required
@@ -63,34 +94,21 @@ def employee_logout():
 
 # ------------------- ADMIN ROUTES ------------------- #
 
-@app.route('/admin/login', methods=['POST'])
-def admin_login():
-    data = request.json
-    username = data.get('username')
-    password = data.get('password')
+@app.route('/admin/dashboard')
+@login_required
+def admin_dashboard():
+    if not isinstance(current_user, Admin):
+        return redirect(url_for('login'))  # Prevent employees from accessing admin page
+    return render_template('admin_home.html', username=current_user.username)
 
-    admin = Admin.query.filter_by(username=username).first()
-    if admin and check_password_hash(admin.password, password):
-        login_user(admin)
-        return jsonify({"message": "Admin login successful"}), 200
-    return jsonify({"message": "Invalid admin credentials"}), 401
-
-@app.route('/admin/view_attendance', methods=['GET'])
+@app.route('/admin/view_attendance')
 @login_required
 def view_attendance():
     if not isinstance(current_user, Admin):
         return jsonify({"message": "Unauthorized"}), 403
 
     attendance_records = Attendance.query.all()
-    return jsonify([{
-        "id": record.id,
-        "emp_id": record.emp_id,
-        "name": record.name,
-        "date": str(record.date),
-        "check_in": str(record.check_in) if record.check_in else None,
-        "check_out": str(record.check_out) if record.check_out else None,
-        "status": record.status
-    } for record in attendance_records])
+    return render_template('view_attendance.html', records=attendance_records)
 
 @app.route('/admin/manage_leaves', methods=['GET', 'POST'])
 @login_required
@@ -134,11 +152,33 @@ def register_employee():
     password = generate_password_hash(data.get('password'))
     image = request.files.get('image')
 
-    image_path = os.path.join(UPLOAD_FOLDER, f"{email}.jpg")
+    image_path = os.path.join('static/uploads', f"{email}.jpg")
     image.save(image_path)
+
+    
+    last_employee = Employee.query.order_by(Employee.id.desc()).first()
+    new_emp_id = f"EMP{(last_employee.id + 1) if last_employee else 1:03d}"
 
     new_employee = Employee(name=name, email=email, phone=phone, password=password, image_path=image_path)
     db.session.add(new_employee)
     db.session.commit()
 
     return jsonify({"message": "Employee registered successfully"}), 201
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/admin/register_admin', methods=['POST'])
+@login_required
+def register_admin():
+    data = request.form
+    username = data.get('username')
+    password = generate_password_hash(data.get('password'))
+
+    # Generate ADMIN ID (format: ADMIN001, ADMIN002, ...)
+    last_admin = Admin.query.order_by(Admin.id.desc()).first()
+    new_admin_id = f"ADMIN{(last_admin.id + 1) if last_admin else 1:03d}"
+
+    new_admin = Admin(admin_id=new_admin_id, username=username, password=password)
+    db.session.add(new_admin)
+    db.session.commit()
+
+    return redirect(url_for('admin_dashboard'))

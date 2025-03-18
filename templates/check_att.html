@@ -66,75 +66,48 @@ table tbody tr:hover {
 <body>
   <header>
     <div class="navbar">
-      <h1 style="color: white;">VisagFace</h1>
-      <nav class="navbar">
-        <div class="nav-links">
-          <a href="ad_home.html">Home</a>
-            <a href="#">Check Attendance</a>
-            <a href="check_req.html">Check Request</a>
-            <a href="register.html">New Registration</a>
-            <a href="#">Contact</a>
-      </nav>
+        <h1 style="color: white;">VisagFace</h1>
+        <nav>
+            <div class="nav-links">
+                <a href="{{ url_for('admin/dashboard') }}">Home</a>
+                <a href="#">Check Attendance</a>
+                <a href="{{ url_for('admin/manage_leaves') }}">Check Request</a>
+                <a href="{{ url_for('admin/register_employee'') }}">New Registration</a>
+                <a href="#">Contact</a>
+            </div>
+        </nav>
     </div>
-    </div>
-    <header>
+</header>
   <main>
-    <!-- Attendance Table -->
+
     <section>
       <h2 style="text-align: center; margin-top: 50px;">Employee Attendance</h2>
-      <table id="attendance-table">
-        <thead>
-          <tr>
+      <table>
+        <tr>
             <th>Employee ID</th>
             <th>Name</th>
             <th>Date</th>
             <th>Check-In</th>
             <th>Check-Out</th>
             <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="attendance-records">
-          <!-- Dynamic Rows -->
-        </tbody>
-      </table>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.emp_id }}</td>
+            <td>{{ record.name }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.check_in }}</td>
+            <td>{{ record.check_out }}</td>
+            <td>{{ record.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
     </section>
   </main>
  <!-- Footer -->
  <footer>
   <p>&copy; 2024 VisagFace. All rights reserved.</p>
 </footer>
-  <script>
-    // Access the attendance table's body
-    const attendanceTable = document.getElementById("attendance-records");
-
-    // Attendance records data
-    const attendanceRecords = [
-      { id: "2001", name: "John Doe", date: "2024-11-20", checkIn: "09:00 AM", checkOut: "05:00 PM", status: "Present" },
-      { id: "2003", name: "Jane Smith", date: "2024-11-20", checkIn: "09:30 AM", checkOut: "05:15 PM", status: "Present" },
-      { id: "2005", name: "David Lee", date: "2024-11-20", checkIn: "", checkOut: "", status: "Absent" },
-    ];
-
-    // Render attendance records in the table
-    function renderAttendanceRecords() {
-      attendanceTable.innerHTML = ""; // Clear existing rows
-      attendanceRecords.forEach((record) => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-          <td>${record.id}</td>
-          <td>${record.name}</td>
-          <td>${record.date}</td>
-          <td>${record.checkIn || "-"}</td>
-          <td>${record.checkOut || "-"}</td>
-          <td>${record.status}</td>
-        `;
-
-        attendanceTable.appendChild(row);
-      });
-    }
-
-    // Initialize by rendering records
-    renderAttendanceRecords();
-  </script>
 </body>
 </html>

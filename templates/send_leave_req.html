@@ -103,30 +103,27 @@
   <!-- Navbar -->
   <header>
     <div class="navbar">
-      <h1>VisagFace</h1>
-      <nav class="navbar">
-        <div class="nav-links">
-          <a href="employee_home.html">Home</a>
-          <a href="calender.html">Calendar</a>
-          <a href="attendance.html">Attendance</a>
-          <a href="#">Leave Request</a>
-          <a href="#">Contact</a>
-        </div>
-      </nav>
+        <h1 style="color: white;">VisagFace</h1>
+        <nav>
+            <div class="nav-links">
+                <a href="{{ url_for('employee/dashboard') }}">Home</a>
+                <a href="{{ url_for('admin/view_attendance') }}">Calender</a>
+                <a href="{{ url_for('employee/mark_attendance') }}">Attendance</a>
+                <a href="#">Leave Request</a>
+                <a href="#">Contact</a>
+            </div>
+        </nav>
     </div>
-  </header>
-
+</header>
   <!-- Main Content -->
   <main>
     <h1 style="color: black;">Leave Request</h1>
     <!-- Form to Submit a New Leave Request -->
-    <form id="leave-request-form">
+    <form id="leave-request-form" action="/employee/request_leave" method="POST">
       <label for="leave-date">Leave Date</label>
       <input type="date" id="leave-date" name="leave-date" required>
-
       <label for="leave-reason">Reason:</label>
       <textarea id="leave-reason" name="leave-reason" rows="4" required></textarea>
-
       <button type="submit" style="background-color: #007BFF">Submit Leave Request</button>
     </form>
 
@@ -151,52 +148,5 @@
     <p>&copy; 2024 VisagFace. All rights reserved.</p>
   </footer>
 
-  <!-- JavaScript -->
-  <script>
-    // References
-    const leaveForm = document.getElementById("leave-request-form");
-    const leaveRequestsTable = document.getElementById("leave-requests");
-
-    // Mock Database for Leave Requests
-    let leaveRequests = [];
-
-    // Function to Render Leave Requests
-    function renderLeaveRequests() {
-      leaveRequestsTable.innerHTML = ""; // Clear existing rows
-      leaveRequests.forEach((request, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${request.date}</td>
-          <td>${request.reason}</td>
-          <td>${request.status}</td>
-        `;
-        leaveRequestsTable.appendChild(row);
-      });
-    }
-
-    // Submit New Leave Request
-    leaveForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const date = document.getElementById("leave-date").value;
-      const reason = document.getElementById("leave-reason").value;
-
-      if (date && reason) {
-        // Add to Leave Requests (replace this with server-side API call)
-        leaveRequests.push({
-          date,
-          reason,
-          status: "Pending",
-        });
-
-        alert("Leave request submitted!");
-        leaveForm.reset();
-        renderLeaveRequests();
-      }
-    });
-
-    // Initial Render
-    renderLeaveRequests();
-  </script>
 </body>
 </html>

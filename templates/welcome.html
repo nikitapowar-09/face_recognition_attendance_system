@@ -6,7 +6,7 @@
   <title>Face Recognition Attendance</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-   body, html {
+    body, html {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -56,7 +56,7 @@
     }
 
     .form-section button:hover {
-      background-color:  #1ea7c6;
+      background-color: #1ea7c6;
     }
 
     .image-section {
@@ -104,8 +104,8 @@
     <!-- Form Section -->
     <div class="form-section">
       <h1>Welcome to VISAGFace</h1>
-      <button id="employee-login">Log in as Employee</button>
-      <button id="admin-login">Log in as Admin</button>
+      <button onclick="redirectToLogin('employee')">Log in as Employee</button>
+      <button onclick="redirectToLogin('admin')">Log in as Admin</button>
     </div>
 
     <!-- Image Section -->
@@ -119,16 +119,5 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
-  <script>
-    // Add event listeners for the buttons
-    document.getElementById('employee-login').addEventListener('click', function() {
-      window.location.href = 'emp_login.html'; // Redirect to Employee Login Page
-    });
-
-    document.getElementById('admin-login').addEventListener('click', function() {
-      window.location.href = 'admin_login.html'; // Redirect to Admin Login Page
-    });
-  </script>
 </body>
 </html>
