@@ -11,11 +11,12 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      background-image: url('employee.jpg'); /* Background image */
-      background-size: cover; /* Ensures the image covers the entire screen */
-      background-repeat: no-repeat; /* Prevent tiling */
-      background-position: center; /* Center the image */
-      background-attachment: fixed; /* Prevents any cut during scrolling */
+      background-image: url('/static/images/employee.jpg'); /* Background image */
+      background-size: cover; 
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      font-family: 'Roboto', sans-serif;
     }
 
     /* Employee Login Container */
@@ -23,19 +24,19 @@
       background-color: rgba(134, 204, 247, 0.5); /* Slight transparency */
       padding: 30px;
       border-radius: 10px;
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Add depth */
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
       text-align: center;
-      width: 1500px;
-      height: 700px;
-      margin: auto; /* Center horizontally */
-      position: absolute; /* Centering in the viewport */
-      top: 50%; /* Center vertically */
+      width: 400px;
+      height: auto;
+      margin: auto;
+      position: absolute;
+      top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%); /* Precise centering */
+      transform: translate(-50%, -50%);
     }
 
     /* Heading */
-    .login-container h1 {
+    .login-container h2 {
       font-size: 24px;
       color: #333;
       margin-bottom: 20px;
@@ -43,7 +44,7 @@
 
     /* Input Fields */
     .login-container input {
-      width: 30%;
+      width: 90%;
       padding: 10px;
       margin: 10px 0;
       border: 1px solid #ccc;
@@ -53,9 +54,9 @@
 
     /* Button */
     .login-container button {
-      width: 15%;
+      width: 95%;
       padding: 10px;
-      background-color:#037d81; /* Matches top section */
+      background-color: #037d81; 
       border: none;
       border-radius: 5px;
       color: white;
@@ -65,25 +66,25 @@
     }
 
     .login-container button:hover {
-      background-color:  #1ea7c6 ;/* Matches bottom section */
+      background-color: #1ea7c6;
     }
 
     /* Login Status Message */
     #login-status {
-      margin-top: 20px; /* Space above the message */
+      margin-top: 20px;
       font-size: 16px;
       font-weight: bold;
     }
   </style>
 </head>
-<body>
-  <section class="login-section">
+<body class="login-container">
+  <div class="login-container">
     <h2>Employee Login</h2>
     <form action="/employee/login" method="post">
-      <input type="text" id="employee-id" placeholder="Enter your Employee ID" required><br>
-      <input type="password" name="password" required>
+      <input type="text" id="employee-id" name="employee_id" placeholder="Enter your Employee ID" required><br>
+      <input type="password" name="password" placeholder="Enter Password" required><br>
       <button type="submit">Login</button>
     </form>
-  </section>
+  </div>
 </body>
 </html>

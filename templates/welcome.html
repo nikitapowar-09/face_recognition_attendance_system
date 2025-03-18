@@ -118,6 +118,14 @@
       </div>
     </div>
   </div>
-
+  <script>
+    function redirectToLogin(userType) {
+      if (userType === 'employee') {
+        window.location.href = "/employee_login"; // Redirect to employee login
+      } else if (userType === 'admin') {
+        window.location.href = "/admin_login"; // Redirect to admin login
+      }
+    }
+  </script>
 </body>
 </html>

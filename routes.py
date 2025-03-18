@@ -9,7 +9,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import os
 
-
 @app.route('/')
 def landing_page():
     return render_template('welcome.html')
@@ -28,27 +27,13 @@ def employee_login():
 
     return render_template('emp_login.html')
 
-# Admin Login Page
-@app.route('/admin_login', methods=['GET', 'POST'])
-def admin_login():
-    if request.method == 'POST':
-        user_id = request.form.get('user_id')
-        password = request.form.get('password')
-        user = Admin.query.filter_by(admin_id=user_id).first()
 
-        if user and user.password == password:  # Use hashed passwords in production
-            login_user(user)
-            return redirect(url_for('admin_dashboard'))
-        else:
-            flash("Invalid credentials", "error")
-
-    return render_template('admin_login.html')
 
 @app.route('/employee/dashboard')
 @login_required
 def employee_dashboard():
     if not isinstance(current_user, Employee):
-        return redirect(url_for('login'))  # Prevent admins from accessing employee page
+        return redirect(url_for('employee_login'))  # Prevent admins from accessing employee page
     return render_template('employee_home.html', name=current_user.name)
 
 @app.route('/employee/mark_attendance', methods=['POST'])
@@ -64,14 +49,14 @@ def mark_attendance():
         if not existing_record.check_out:
             existing_record.check_out = datetime.utcnow().time()
             db.session.commit()
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('employee_dashboard'))
         flash("Attendance already marked", "error")
         return redirect(url_for('dashboard'))
 
     new_attendance = Attendance(emp_id=emp_id, name=name, check_in=datetime.utcnow().time(), status="Present")
     db.session.add(new_attendance)
     db.session.commit()
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('employee_dashboard'))
 
 @app.route('/employee/request_leave', methods=['POST'])
 @login_required
@@ -83,7 +68,7 @@ def request_leave():
     db.session.add(new_leave)
     db.session.commit()
 
-    return redirect(url_for('dashboard'))
+    return redirect(url_for('employee_dashboard'))
 
 
 @app.route('/employee/logout')
@@ -93,12 +78,28 @@ def employee_logout():
     return jsonify({"message": "Logged out"}), 200
 
 # ------------------- ADMIN ROUTES ------------------- #
+ #Admin Login Page
+@app.route("/admin/login", methods=["POST"])
+def admin_login():
+    admin_id = request.form.get("admin_id")
+    password = request.form.get("password")
+
+    # Fetch admin from database
+    admin = Admin.query.filter_by(admin_id=admin_id).first()
+
+    if admin and check_password_hash(admin.password, password):
+        session["admin_id"] = admin.admin_id  # Store admin session
+        flash("Login successful!", "success")
+        return redirect(url_for("admin_dashboard"))  # Redirect to admin dashboard
+    
+    flash("Invalid credentials!", "danger")
+    return redirect(url_for("admin_login"))
 
 @app.route('/admin/dashboard')
 @login_required
 def admin_dashboard():
     if not isinstance(current_user, Admin):
-        return redirect(url_for('login'))  # Prevent employees from accessing admin page
+        return redirect(url_for('admin_login'))  # Prevent employees from accessing admin page
     return render_template('admin_home.html', username=current_user.username)
 
 @app.route('/admin/view_attendance')
@@ -108,7 +109,7 @@ def view_attendance():
         return jsonify({"message": "Unauthorized"}), 403
 
     attendance_records = Attendance.query.all()
-    return render_template('view_attendance.html', records=attendance_records)
+    return render_template('check_att.html', records=attendance_records)
 
 @app.route('/admin/manage_leaves', methods=['GET', 'POST'])
 @login_required
